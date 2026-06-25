@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "762510779199",
+    "project_id": "icab-private-app-8a740",
+    "storage_bucket": "icab-private-app-8a740.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762510779199:android:6f79c0925c69a5de3e298a",
+        "android_client_info": {
+          "package_name": "com.AshrafIT.e_learning_app.e_learning_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "762510779199-8flfvcv05d6nlt9j5jbv0tugjhsmn0id.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3RdLC-zp1AkhNyMh1P_dw5xaJAWnIP9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "762510779199-8flfvcv05d6nlt9j5jbv0tugjhsmn0id.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "762510779199-93tc2b08e0l1982d102vjuc6lihq6qrr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ashrafulit.cricket.cricketLiveScoreApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762510779199:android:6b5b9787d6691d1d3e298a",
+        "android_client_info": {
+          "package_name": "com.ashrafulit.cricket.cricket_live_score_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "762510779199-md1cb408pa033dhd1pc38fm23h6h81rk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ashrafulit.cricket.cricket_live_score_app",
+            "certificate_hash": "f1da00fa49475ef9be5ee9292b1699cf6ca67d60"
+          }
+        },
+        {
+          "client_id": "762510779199-8flfvcv05d6nlt9j5jbv0tugjhsmn0id.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3RdLC-zp1AkhNyMh1P_dw5xaJAWnIP9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "762510779199-8flfvcv05d6nlt9j5jbv0tugjhsmn0id.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "762510779199-93tc2b08e0l1982d102vjuc6lihq6qrr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ashrafulit.cricket.cricketLiveScoreApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762510779199:android:974f45fa280df5243e298a",
+        "android_client_info": {
+          "package_name": "com.example.icab_private_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "762510779199-8flfvcv05d6nlt9j5jbv0tugjhsmn0id.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3RdLC-zp1AkhNyMh1P_dw5xaJAWnIP9k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "762510779199-8flfvcv05d6nlt9j5jbv0tugjhsmn0id.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "762510779199-93tc2b08e0l1982d102vjuc6lihq6qrr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ashrafulit.cricket.cricketLiveScoreApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
