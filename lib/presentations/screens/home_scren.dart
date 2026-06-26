@@ -6,6 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/services/auth_services.dart';
+import '../widgets/buildCourseCard.dart';
+import 'enroll_cource_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,10 +25,10 @@ class _HomePageState extends State<HomePage> {
 
   // কোর্স ডাটা লিস্ট
   List<Map<String, dynamic>> _allCourses = [
-    {"title": "Flutter UI/UX Design Mastery", "instructor": "Dr. Angela Yu", "price": "২৫০০"},
-    {"title": "Python for Beginners", "instructor": "John Doe", "price": "১২০০"},
-    {"title": "Web Development Bootcamp", "instructor": "Colt Steele", "price": "৩০০০"},
-    {"title": "Dart Mastery with Firebase", "instructor": "Asraful Islam", "price": "২০০০"},
+    // {"title": "Flutter UI/UX Design Mastery", "instructor": "Dr. Angela Yu", "price": "২৫০০"},
+    // {"title": "Python for Beginners", "instructor": "John Doe", "price": "১২০০"},
+    // {"title": "Web Development Bootcamp", "instructor": "Colt Steele", "price": "৩০০০"},
+    // {"title": "Dart Mastery with Firebase", "instructor": "Asraful Islam", "price": "২০০০"},
   ];
 
   List<Map<String, dynamic>> _foundCourses = [];
@@ -39,6 +41,49 @@ class _HomePageState extends State<HomePage> {
     _fetchUserData();
     _fetchCoursesFromFirestore();
   }
+
+  Future<void> _enrollInCourse(Map<String, dynamic> course) async {
+    // ইউজারের আইডি চেক করা
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if (uid == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("User not logged in!")),
+      );
+      return;
+    }
+
+    try {
+      // ডাটাবেসে পাঠানো হচ্ছে
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('enrolled_courses')
+          .add({
+        'title': course['title'] ?? 'No Title',
+        'instructor': course['instructor'] ?? 'Unknown',
+        'price': course['price'] ?? '0',
+        'enrolledAt': FieldValue.serverTimestamp(), // এটি ব্যবহার করা ভালো
+      });
+
+      print("Data saved successfully!"); // ডিবাগ করার জন্য
+
+      if (!mounted) return;
+
+      // এনরোল পেজে নিয়ে যাওয়া
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const EnrolledCoursesScreen()),
+      );
+
+    } catch (e) {
+      print("Database Error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    }
+  }
+
 
   // ফায়ারস্টোর থেকে লাইভ কোর্স আনা
   Future<void> _fetchCoursesFromFirestore() async {
@@ -200,6 +245,13 @@ class _HomePageState extends State<HomePage> {
                       Text(user?.email ?? '', style: TextStyle(color: Colors.grey[600], fontSize: 14)),
                       const SizedBox(height: 25),
                       _buildMenuTile(Icons.edit_outlined, "Rename Profile", Colors.blue, _showRenameDialog),
+                      _buildMenuTile(Icons.book_online_outlined, "My Enrolled Courses", Colors.orange, () {
+                        Navigator.pop(context); // বটম শীট বন্ধ হবে
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const EnrolledCoursesScreen()),
+                        );
+                      }),
                       _buildMenuTile(Icons.camera_alt_outlined, "Change Picture", Colors.purple, () async {
                         Navigator.pop(context);
                         await _pickImage();
@@ -297,10 +349,11 @@ class _HomePageState extends State<HomePage> {
                   ? ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: _foundCourses.length,
-                itemBuilder: (context, index) => _buildCourseCard(
-                  _foundCourses[index]['title'],
-                  _foundCourses[index]['instructor'],
-                  _foundCourses[index]['price'],
+                itemBuilder: (context, index) => buildCourseCard(
+                  title: _foundCourses[index]['title'],
+                  instructor: _foundCourses[index]['instructor'],
+                  price: _foundCourses[index]['price'],
+                  onEnroll: () => _enrollInCourse(_foundCourses[index]), // এটি যোগ করুন
                 ),
               )
                   : Center(
@@ -319,61 +372,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // সেই প্রিমিয়াম কোর্স কার্ড ডিজাইন
-  Widget _buildCourseCard(String title, String instructor, String price) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [BoxShadow(color: Colors.indigo.withOpacity(0.06), blurRadius: 20, offset: const Offset(0, 10))],
-      ),
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            child: Container(
-              height: 160,
-              width: double.infinity,
-              color: Colors.indigo[50],
-              child: const Icon(Icons.play_circle_rounded, size: 60, color: Colors.indigo),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    Icon(Icons.person, size: 14, color: Colors.grey[400]),
-                    const SizedBox(width: 4),
-                    Text(instructor, style: TextStyle(color: Colors.grey[600], fontSize: 13)),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("৳ $price", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.indigo)),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.indigo,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                      ),
-                      child: const Text("Enroll Now", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
